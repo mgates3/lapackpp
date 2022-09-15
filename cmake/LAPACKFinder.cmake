@@ -38,7 +38,7 @@ set( lapack_cached           ${lapack}           CACHE INTERNAL "" )
 
 include( "cmake/util.cmake" )
 
-message( STATUS "Looking for LAPACK libraries and options" )
+message( STATUS "${bold}Looking for LAPACK libraries and options${not_bold} (lapack = ${lapack})" )
 
 #-------------------------------------------------------------------------------
 # Parse options: LAPACK_LIBRARIES, lapack.
@@ -173,3 +173,4 @@ LAPACK_FOUND        = '${LAPACK_FOUND}'
 LAPACK_LIBRARIES    = '${LAPACK_LIBRARIES}'
 lapackpp_defs_        = '${lapackpp_defs_}'
 ")
+message( "" )
