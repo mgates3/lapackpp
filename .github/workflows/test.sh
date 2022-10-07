@@ -6,7 +6,7 @@ device=$2
 mydir=$(dirname $0)
 source ${mydir}/setup_env.sh
 
-section "======================================== Tests"
+print "======================================== Tests"
 cd test
 export OMP_NUM_THREADS=8
 ./run_tests.py --host --quick --xml ${top}/report-${maker}.xml
@@ -14,8 +14,7 @@ export OMP_NUM_THREADS=8
 # CUDA or HIP
 ./run_tests.py --device --quick --xml ${top}/report-${maker}-device.xml
 
-
-section "======================================== Smoke tests"
+print "======================================== Smoke tests"
 cd ${top}/example
 
 if [ "${maker}" = "make" ]; then
@@ -30,4 +29,4 @@ fi
 make
 ./example_potrf || exit 1
 
-section "======================================== Finished"
+print "======================================== Finished"
