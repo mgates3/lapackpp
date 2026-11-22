@@ -31,16 +31,17 @@ static inline double pow10( int y )
 /// - small values < 0.01 or large values > threshold are printed with %w.pg
 /// - modest values are printed with %w.pf.
 /// To ensure data fits, set threshold = 10^(w - p - 2) and w >= p + 6.
+///
+/// @return actual bytes written, not including \0 terminator. This
+/// differs from snprintf, which returns number of bytes required.
+///
 template <typename real_t>
 int snprintf_value(
-    char* buf, size_t buf_len,
+    char* buf, int buf_len,
     int width, int precision,
     real_t value,
     std::enable_if_t< std::is_floating_point_v< real_t > >* z=nullptr )
 {
-    // min prevents compiler format-truncation warning for unrealistic theoretical width.
-    width = std::min( width, 32 );
-
     real_t abs_val = std::abs( value );
     real_t threshold = pow10( width - precision - 2 );
 
@@ -61,29 +62,29 @@ int snprintf_value(
         len = snprintf( buf, buf_len,
                         " %#*.*f", width, precision, value );
     }
-    return len;
+    // return bytes actually written.
+    return std::min( len, buf_len - 1 );
 }
 
 //------------------------------------------------------------------------------
 /// Overload to print integer values.
 template <typename integer_t>
 int snprintf_value(
-    char* buf, size_t buf_len,
+    char* buf, int buf_len,
     int width, int precision,
     integer_t value,
     std::enable_if_t< std::is_integral_v< integer_t > >* z=nullptr)
 {
-    // min prevents compiler format-truncation warning for unrealistic theoretical width.
-    width = std::min( width, 32 );
-
-    return snprintf( buf, buf_len, " %*lld", width, llong( value ) );
+    int len = snprintf( buf, buf_len, " %*lld", width, llong( value ) );
+    // return bytes actually written.
+    return std::min( len, buf_len - 1 );
 }
 
 //------------------------------------------------------------------------------
 /// Overload to print complex values as " <real> + <imag>i".
 template <typename real_t>
 int snprintf_value(
-    char* buf, size_t buf_len,
+    char* buf, int buf_len,
     int width, int precision,
     std::complex<real_t> value)
 {
