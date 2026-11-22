@@ -51,6 +51,7 @@ def main():
     config.prog_cxx_flag( '-Wall' )
     config.prog_cxx_flag( '-Wno-unused-local-typedefs' )
     config.prog_cxx_flag( '-Wno-unused-function' )
+    config.prog_cxx_flag( '-Wno-format-truncation' )
    #config.prog_cxx_flag( '-pedantic',  # todo: conflict with ROCm 3.9.0
    #config.prog_cxx_flag( '-Wshadow',   # todo: conflict with ROCm 3.9.0
    #config.prog_cxx_flag( '-Wmissing-declarations' )
