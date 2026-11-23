@@ -57,11 +57,9 @@ void test_lasr_work( Params& params, bool run )
     lapack::larnv( idist, iseed, A_tst.size(), &A_tst[0] );
     A_ref = A_tst;
 
-    if (verbose >= 2 ) {
-        print_matrix( "A", m, n, &A_tst[0], lda, verbose );
-        print_vector( "C", size_C, &C[0], 1, verbose );
-        print_vector( "S", size_C, &S[0], 1, verbose );
-    }
+    print_matrix( "A", m, n, &A_tst[0], lda, verbose );
+    print_vector( "C", size_C, &C[0], 1, verbose );
+    print_vector( "S", size_C, &S[0], 1, verbose );
 
     //---------- run test
     testsweeper::flush_cache( params.cache() );
@@ -71,9 +69,7 @@ void test_lasr_work( Params& params, bool run )
 
     params.time() = time;
 
-    if (verbose >= 2 ) {
-        print_matrix( "A_out", m, n, &A_tst[0], lda, verbose );
-    }
+    print_matrix( "A_out", m, n, &A_tst[0], lda, verbose );
 
     if (params.check() == 'y') {
         //---------- run reference, using rot
@@ -131,9 +127,7 @@ void test_lasr_work( Params& params, bool run )
 
         params.ref_time() = time;
 
-        if (verbose >= 2 ) {
-            print_matrix( "A_ref", m, n, &A_ref[0], lda, verbose );
-        }
+        print_matrix( "A_ref", m, n, &A_ref[0], lda, verbose );
 
         //---------- check error compared to reference
         real_t error = rel_error( A_tst, A_ref );
