@@ -99,12 +99,10 @@ void test_tpmlqt_work( Params& params, bool run )
         fprintf( stderr, "lapack::tplqt returned error %lld\n", llong( info ) );
     }
 
-    if (verbose > 1) {
-        print_matrix( "V", k,  Vn, &V[0], ldv, verbose );
-        print_matrix( "T", nb, k,  &T[0], ldt, verbose );
-        print_matrix( "A", Am, An, &A_tst[0], lda, verbose );
-        print_matrix( "B", m,  n,  &B_tst[0], ldb, verbose );
-    }
+    print_matrix( "V", k,  Vn, &V[0], ldv, verbose );
+    print_matrix( "T", nb, k,  &T[0], ldt, verbose );
+    print_matrix( "A", Am, An, &A_tst[0], lda, verbose );
+    print_matrix( "B", m,  n,  &B_tst[0], ldb, verbose );
 
     //---------- run test
     testsweeper::flush_cache( params.cache() );
@@ -119,10 +117,8 @@ void test_tpmlqt_work( Params& params, bool run )
     double gflop = lapack::Gflop< scalar_t >::unmlq( side, m, n, k );  // estimate
     params.gflops() = gflop / time;
 
-    if (verbose > 1) {
-        print_matrix( "Aout", Am, An, &A_tst[0], lda, verbose );
-        print_matrix( "Bout", m,  n,  &B_tst[0], ldb, verbose );
-    }
+    print_matrix( "Aout", Am, An, &A_tst[0], lda, verbose );
+    print_matrix( "Bout", m,  n,  &B_tst[0], ldb, verbose );
 
     if (params.ref() == 'y' || params.check() == 'y') {
         //---------- run reference
@@ -137,10 +133,8 @@ void test_tpmlqt_work( Params& params, bool run )
         params.ref_time() = time;
         params.ref_gflops() = gflop / time;
 
-        if (verbose > 1) {
-            print_matrix( "Aref", Am, An, &A_ref[0], lda, verbose );
-            print_matrix( "Bref", m,  n,  &B_ref[0], ldb, verbose );
-        }
+        print_matrix( "Aref", Am, An, &A_ref[0], lda, verbose );
+        print_matrix( "Bref", m,  n,  &B_ref[0], ldb, verbose );
 
         //---------- check error compared to reference
         real_t error = 0;
